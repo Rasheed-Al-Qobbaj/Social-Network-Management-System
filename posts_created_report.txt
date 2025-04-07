@@ -1,0 +1,84 @@
+Posts Created Report
+====================
+
+User: Bilal (ID: 10)
+  - Post ID: 65, Content: Bilal's end post, 22.5.2025, Shared With: Nadia
+  - Post ID: 55, Content: Bilal's message, 12.5.2025, Shared With: Sara
+  - Post ID: 45, Content: Post number 45 by user 10, 02.5.2025, Shared With: Nadia, Sara
+  - Post ID: 33, Content: Catching up with friends., 20.4.2025, Shared With: Nadia, Sara
+  - Post ID: 22, Content: Working on a new hobby., 09.4.2025, Shared With: Nadia, Sara
+  - Post ID: 13, Content: Visited the old city., 30.3.2025, Shared With: Nadia, Sara
+
+User: Hana (ID: 9)
+  - Post ID: 70, Content: Extra post 5, 27.5.2025, Shared With: Omar
+  - Post ID: 64, Content: Hana's conclusion post, 21.5.2025, Shared With: Omar
+  - Post ID: 54, Content: Hana's share, 11.5.2025, Shared With: Omar
+  - Post ID: 44, Content: Post number 44 by user 9, 01.5.2025, Shared With: Omar
+  - Post ID: 32, Content: Visited a museum., 19.4.2025, Shared With: None
+  - Post ID: 21, Content: Quiet evening at home., 08.4.2025, Shared With: Omar
+  - Post ID: 12, Content: Thinking about summer plans., 29.3.2025, Shared With: Omar
+
+User: Youssef (ID: 8)
+  - Post ID: 63, Content: Youssef finishes up, 20.5.2025, Shared With: Khaled
+  - Post ID: 53, Content: Youssef's short note, 10.5.2025, Shared With: None
+  - Post ID: 43, Content: Post number 43 by user 8, 30.4.2025, Shared With: Khaled
+  - Post ID: 35, Content: Learning guitar., 22.4.2025, Shared With: Khaled
+  - Post ID: 24, Content: Found a cool cafe., 11.4.2025, Shared With: Khaled
+  - Post ID: 11, Content: Game night!, 28.3.2025, Shared With: Khaled
+
+User: Nadia (ID: 7)
+  - Post ID: 69, Content: Extra post 4, 26.5.2025, Shared With: Bilal
+  - Post ID: 62, Content: Nadia's last message, 19.5.2025, Shared With: Omar, Fatima
+  - Post ID: 52, Content: Nadia's contribution, 09.5.2025, Shared With: Bilal, Omar, Fatima
+  - Post ID: 42, Content: Post number 42 by user 7, 29.4.2025, Shared With: Bilal, Fatima
+  - Post ID: 28, Content: Beautiful sunset., 15.4.2025, Shared With: Bilal, Omar
+  - Post ID: 19, Content: Feeling productive., 06.4.2025, Shared With: Omar, Fatima
+  - Post ID: 9, Content: Studying COMP242., 27.3.2025, Shared With: Bilal, Omar, Fatima
+
+User: Omar (ID: 6)
+  - Post ID: 68, Content: Extra post 3, 25.5.2025, Shared With: Hana
+  - Post ID: 61, Content: Omar's final entry, 18.5.2025, Shared With: Nadia, Sara, Ahmed
+  - Post ID: 51, Content: Omar's post, 08.5.2025, Shared With: Nadia
+  - Post ID: 41, Content: Post number 41 by user 6, 28.4.2025, Shared With: Hana, Ahmed
+  - Post ID: 34, Content: Weekend vibes., 21.4.2025, Shared With: Hana, Nadia, Sara, Ahmed
+  - Post ID: 25, Content: Finally submitted the report., 12.4.2025, Shared With: Hana, Nadia, Ahmed
+  - Post ID: 16, Content: Team meeting today., 03.4.2025, Shared With: Hana, Sara, Ahmed
+  - Post ID: 7, Content: Project deadline soon., 25.3.2025, Shared With: Nadia, Sara, Ahmed
+
+User: Sara (ID: 5)
+  - Post ID: 60, Content: Sara signing off (post), 17.5.2025, Shared With: Bilal
+  - Post ID: 50, Content: Sara shares something, 07.5.2025, Shared With: Omar, Khaled
+  - Post ID: 40, Content: Post number 40 by user 5, 27.4.2025, Shared With: Bilal, Omar
+  - Post ID: 29, Content: Need inspiration., 16.4.2025, Shared With: Omar, Khaled
+  - Post ID: 18, Content: Planning a trip., 05.4.2025, Shared With: Bilal, Khaled
+  - Post ID: 6, Content: Coffee time!, 25.3.2025, Shared With: Bilal, Omar, Khaled
+
+User: Khaled (ID: 3)
+  - Post ID: 67, Content: Extra post 2, 24.5.2025, Shared With: Youssef
+  - Post ID: 58, Content: One more from Khaled, 15.5.2025, Shared With: Sara, Ahmed
+  - Post ID: 48, Content: Khaled checking in, 05.5.2025, Shared With: Youssef, Sara, Fatima
+  - Post ID: 38, Content: Post number 38 by user 3, 25.4.2025, Shared With: Sara, Ahmed
+  - Post ID: 31, Content: Looking forward to the holidays., 18.4.2025, Shared With: Youssef, Fatima, Ahmed
+  - Post ID: 20, Content: Pizza for dinner!, 07.4.2025, Shared With: Sara, Fatima, Ahmed
+  - Post ID: 10, Content: Need more sleep., 28.3.2025, Shared With: Youssef, Fatima, Ahmed
+  - Post ID: 3, Content: Just finished my assignment., 22.3.2025, Shared With: Sara, Ahmed
+
+User: Fatima (ID: 2)
+  - Post ID: 57, Content: Almost done posting, 14.5.2025, Shared With: Ahmed
+  - Post ID: 47, Content: Fatima's thoughts, 04.5.2025, Shared With: Khaled, Ahmed
+  - Post ID: 37, Content: Post number 37 by user 2, 24.4.2025, Shared With: Nadia, Ahmed
+  - Post ID: 27, Content: Trying a new recipe., 14.4.2025, Shared With: Nadia, Ahmed
+  - Post ID: 17, Content: Lunch break., 04.4.2025, Shared With: Nadia, Khaled, Ahmed
+  - Post ID: 8, Content: Nice weather for a walk., 26.3.2025, Shared With: Nadia
+  - Post ID: 2, Content: Cloudy day today., 22.3.2025, Shared With: Khaled, Ahmed
+
+User: Ahmed (ID: 1)
+  - Post ID: 71, Content: Enjoying COMP242 course :), 25.3.2025, Shared With: Sara, Khaled, Fatima
+  - Post ID: 66, Content: Extra post 1, 23.5.2025, Shared With: None
+  - Post ID: 56, Content: Final thoughts for now, 13.5.2025, Shared With: Omar, Khaled, Fatima
+  - Post ID: 46, Content: Another post from Ahmed, 03.5.2025, Shared With: Omar
+  - Post ID: 36, Content: Post number 36 by user 1, 23.4.2025, Shared With: Khaled, Fatima
+  - Post ID: 30, Content: Debugging code... again., 17.4.2025, Shared With: Omar, Khaled
+  - Post ID: 23, Content: Morning run done., 10.4.2025, Shared With: Fatima
+  - Post ID: 14, Content: Coding session in progress., 01.4.2025, Shared With: Omar, Khaled
+  - Post ID: 5, Content: Enjoying the weekend., 24.3.2025, Shared With: Omar, Fatima
