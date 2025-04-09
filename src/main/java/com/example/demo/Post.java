@@ -8,11 +8,11 @@ class Post {
     int postId;
     int creatorId; // Store creator ID for easier lookup/reference
     String content;
-    String creationDate; // Store as String as per file format
-    LocalDate parsedDate; // Store parsed date for comparisons
-    SharedUserNode sharedWithListHead; // Head of list of users this post is shared with
+    String creationDate;
+    LocalDate parsedDate;
+    SharedUserNode sharedWithListHead;
 
-    // Formatter for parsing/displaying dates consistently
+
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("d.M.yyyy");
 
 
@@ -26,7 +26,7 @@ class Post {
             this.parsedDate = LocalDate.parse(creationDate, DATE_FORMATTER);
         } catch (DateTimeParseException e) {
             System.err.println("Warning: Could not parse date '" + creationDate + "' for Post ID " + postId + ". Using null date.");
-            this.parsedDate = null; // Handle invalid date format
+            this.parsedDate = null;
         }
     }
 
@@ -40,11 +40,6 @@ class Post {
 
     // --- Methods for managing shared users ---
 
-    /**
-     * Adds a user to the list of users this post is shared with.
-     * Avoids duplicates.
-     * @param user The user to share the post with.
-     */
     public void addSharedUser(User user) {
         if (user == null) return;
 
@@ -63,11 +58,7 @@ class Post {
         sharedWithListHead = newNode;
     }
 
-    /**
-     * Removes a user from the list of users this post is shared with.
-     * @param userId The ID of the user to remove from sharing.
-     * @return true if the user was found and removed, false otherwise.
-     */
+
     public boolean removeSharedUser(int userId) {
         if (sharedWithListHead == null) {
             return false;
@@ -94,7 +85,6 @@ class Post {
 
     @Override
     public String toString() {
-        // Basic string representation, can be expanded
         return "Post ID: " + postId + ", Content: \"" + content + "\", Date: " + creationDate + ", CreatorID: " + creatorId;
     }
 }

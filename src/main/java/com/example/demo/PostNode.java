@@ -1,7 +1,7 @@
 package com.example.demo;
 
 class PostNode {
-    Post post; // Reference to the actual Post object
+    Post post;
     PostNode next;
 
     PostNode(Post post) {

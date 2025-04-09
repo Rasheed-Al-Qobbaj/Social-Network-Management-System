@@ -4,8 +4,8 @@ import java.io.*;
 import java.util.Scanner;
 
 class SocialNetwork {
-    private UserNode userListHead; // Head of the main linked list of all users
-    private int nextPostId = 1; // Simple way to generate unique post IDs
+    private UserNode userListHead;
+    private int nextPostId = 1;
 
     public SocialNetwork() {
         this.userListHead = null;
@@ -13,9 +13,6 @@ class SocialNetwork {
 
     // --- Find User Methods ---
 
-    /**
-     * Finds a user by their ID.
-     */
     public User findUserById(int userId) {
         UserNode current = userListHead;
         while (current != null) {
@@ -27,9 +24,7 @@ class SocialNetwork {
         return null; // Not found
     }
 
-    /**
-     * Finds a user by their name (case-insensitive). Returns the first match.
-     */
+
     public User findUserByName(String name) {
         UserNode current = userListHead;
         while (current != null) {
@@ -43,12 +38,6 @@ class SocialNetwork {
 
     // --- File Loading Methods ---
 
-    /**
-     * Loads user data from the specified file.
-     * Handles basic errors and format inconsistencies.
-     *
-     * @param filename Path to the users.txt file.
-     */
     public void loadUsers(String filename) {
         File file = new File(filename);
         try (Scanner scanner = new Scanner(file)) {
@@ -69,7 +58,7 @@ class SocialNetwork {
                         // Check for duplicate ID before adding
                         if (findUserById(id) == null) {
                             User newUser = new User(id, name, age);
-                            // Add user to the main list (add to head for simplicity)
+                            // Add user to the main list
                             UserNode newNode = new UserNode(newUser);
                             newNode.next = userListHead;
                             userListHead = newNode;
@@ -94,17 +83,11 @@ class SocialNetwork {
     }
 
 
-    /**
-     * Loads friendship data from the specified file.
-     * Assumes users are already loaded.
-     *
-     * @param filename Path to the friendships.txt file.
-     */
     public void loadFriendships(String filename) {
         File file = new File(filename);
         try (Scanner scanner = new Scanner(file)) {
             if (scanner.hasNextLine()) {
-                scanner.nextLine(); // Skip header line (e.g., "User ID,Friends")
+                scanner.nextLine(); // Skip header line
             }
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine().trim();
@@ -122,7 +105,7 @@ class SocialNetwork {
                                     int friendId = Integer.parseInt(parts[i].trim());
                                     User friend = findUserById(friendId);
                                     if (friend != null) {
-                                        // Add friendship (make it reciprocal)
+                                        // Add friendship
                                         addFriendship(userId, friendId);
                                     } else {
                                         System.err.println("Warning: Friend ID " + friendId + " not found for user " + userId + ". Skipping friendship.");
@@ -150,26 +133,18 @@ class SocialNetwork {
         }
     }
 
-    /**
-     * Loads post data from the specified file.
-     * Assumes users are already loaded.
-     * Updates nextPostId to avoid conflicts.
-     *
-     * @param filename Path to the posts.txt file.
-     */
     public void loadPosts(String filename) {
         File file = new File(filename);
-        int maxPostId = 0; // Track max loaded ID
+        int maxPostId = 0;
         try (Scanner scanner = new Scanner(file)) {
             if (scanner.hasNextLine()) {
-                scanner.nextLine(); // Skip header line
+                scanner.nextLine();
             }
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine().trim();
                 if (line.isEmpty()) continue;
 
                 String[] parts = line.split(",");
-                // Expecting: PostID,CreatorID,Content,CreationDate,SharedWithID1,SharedWithID2,...
                 if (parts.length >= 4) {
                     try {
                         int postId = Integer.parseInt(parts[0].trim());
@@ -184,21 +159,19 @@ class SocialNetwork {
                         }
 
                         Post newPost = new Post(postId, creatorId, content, date);
-                        creator.addCreatedPost(newPost); // Add to creator's list
+                        creator.addCreatedPost(newPost);
 
-                        // Keep track of the highest post ID found in the file
                         if (postId >= nextPostId) {
                             nextPostId = postId + 1;
                         }
 
-                        // Process shared users
                         for (int i = 4; i < parts.length; i++) {
                             try {
                                 int sharedWithId = Integer.parseInt(parts[i].trim());
                                 User sharedUser = findUserById(sharedWithId);
                                 if (sharedUser != null) {
-                                    newPost.addSharedUser(sharedUser);           // Add user to post's shared list
-                                    sharedUser.addSharedPost(newPost);          // Add post to user's shared list
+                                    newPost.addSharedUser(sharedUser);
+                                    sharedUser.addSharedPost(newPost);
                                 } else {
                                     System.err.println("Warning: Shared-with User ID " + sharedWithId + " not found for Post ID " + postId + ". Skipping share.");
                                 }
@@ -228,9 +201,6 @@ class SocialNetwork {
 
     // --- User Management Operations ---
 
-    /**
-     * Adds a new user to the system.
-     */
     public boolean addUser(int userId, String name, int age) {
         if (findUserById(userId) != null) {
             System.err.println("Error: User with ID " + userId + " already exists.");
@@ -238,20 +208,17 @@ class SocialNetwork {
         }
         User newUser = new User(userId, name, age);
         UserNode newNode = new UserNode(newUser);
-        newNode.next = userListHead; // Add to head
+        newNode.next = userListHead;
         userListHead = newNode;
         System.out.println("User '" + name + "' (ID: " + userId + ") added successfully.");
         return true;
     }
 
-    /**
-     * Updates an existing user's information (e.g., age or name).
-     */
     public boolean updateUser(int userId, String newName, int newAge) {
         User user = findUserById(userId);
         if (user != null) {
-            user.setName(newName); // Assuming setter exists
-            user.setAge(newAge);   // Assuming setter exists
+            user.setName(newName);
+            user.setAge(newAge);
             System.out.println("User ID " + userId + " updated successfully.");
             return true;
         } else {
@@ -260,9 +227,6 @@ class SocialNetwork {
         }
     }
 
-    /**
-     * Deletes a user and handles cascading removals.
-     */
     public boolean deleteUser(int userId) {
         User userToDelete = findUserById(userId);
         if (userToDelete == null) {
@@ -270,36 +234,24 @@ class SocialNetwork {
             return false;
         }
 
-        // 1. Remove posts created by this user (and from others' shared lists)
         PostNode currentPostNode = userToDelete.getPostsCreatedHead();
         while (currentPostNode != null) {
-            deletePostInternal(currentPostNode.post.getPostId(), userId, false); // Delete owned posts
-            currentPostNode = currentPostNode.next; // Move to next BEFORE deleting
+            deletePostInternal(currentPostNode.post.getPostId(), userId, false);
+            currentPostNode = currentPostNode.next;
         }
-        userToDelete.postsCreatedHead = null; // Clear the list head just in case
+        userToDelete.postsCreatedHead = null;
 
-
-        // 2. Remove this user from other users' friend lists
-        // 3. Remove posts *shared with* this user (created by others) from this user's list
-        // 4. Remove this user from the 'sharedWith' list of posts created by others
         UserNode current = userListHead;
         while (current != null) {
-            if (current.user.getUserId() != userId) { // Don't process the user being deleted
-                // Remove from friend lists
+            if (current.user.getUserId() != userId) {
                 current.user.removeFriend(userId);
 
-                // Remove posts created by others from the deleted user's 'sharedWithMe' list
-                // (This user's lists will be garbage collected, but good practice to unlink)
-                // Also, remove the deleted user from the Post's sharedWith list
-                PostNode sharedPostNode = current.user.getPostsCreatedHead(); // Check posts created by *others*
+                PostNode sharedPostNode = current.user.getPostsCreatedHead();
                 while (sharedPostNode != null) {
-                    sharedPostNode.post.removeSharedUser(userId); // Remove deleted user from post's share list
+                    sharedPostNode.post.removeSharedUser(userId);
                     sharedPostNode = sharedPostNode.next;
                 }
 
-                // We also need to iterate the 'sharedWithMe' list of the user being deleted,
-                // find the original post, and remove the deleted user from THAT post's shared list.
-                // This is slightly redundant if the previous loop catches all posts, but safer.
                 PostNode sharedWithDeleted = userToDelete.getPostsSharedWithMeHead();
                 while (sharedWithDeleted != null) {
                     sharedWithDeleted.post.removeSharedUser(userId);
@@ -309,17 +261,16 @@ class SocialNetwork {
             }
             current = current.next;
         }
-        userToDelete.postsSharedWithMeHead = null; // Clear list head
+        userToDelete.postsSharedWithMeHead = null;
 
 
-        // 5. Remove the user from the main user list
         if (userListHead.user.getUserId() == userId) {
-            userListHead = userListHead.next; // Remove head
+            userListHead = userListHead.next;
         } else {
             current = userListHead;
             while (current.next != null) {
                 if (current.next.user.getUserId() == userId) {
-                    current.next = current.next.next; // Bypass the node
+                    current.next = current.next.next;
                     break;
                 }
                 current = current.next;
@@ -333,9 +284,6 @@ class SocialNetwork {
 
     // --- Friendship Management ---
 
-    /**
-     * Adds a reciprocal friendship between two users.
-     */
     public boolean addFriendship(int userId1, int userId2) {
         User user1 = findUserById(userId1);
         User user2 = findUserById(userId2);
@@ -356,9 +304,6 @@ class SocialNetwork {
         }
     }
 
-    /**
-     * Removes a reciprocal friendship between two users.
-     */
     public boolean removeFriendship(int userId1, int userId2) {
         User user1 = findUserById(userId1);
         User user2 = findUserById(userId2);
@@ -375,22 +320,19 @@ class SocialNetwork {
             System.err.println("Error: User ID " + userId2 + " not found for removing friendship.");
         }
 
-        if (removed1 || removed2) { // If removal happened on at least one side
+        if (removed1 || removed2) {
             System.out.println("Friendship removed between users " + userId1 + " and " + userId2);
             return true;
         } else if (user1 != null && user2 != null) {
             System.out.println("Users " + userId1 + " and " + userId2 + " were not friends.");
-            return false; // Indicate they weren't friends to begin with
+            return false;
         } else {
-            return false; // Indicate failure due to user not found
+            return false;
         }
     }
 
     // --- Post Management ---
 
-    /**
-     * Creates a new post and shares it accordingly.
-     */
     public boolean createPost(int creatorId, String content, String creationDate, int[] sharedWithIds) {
         User creator = findUserById(creatorId);
         if (creator == null) {
@@ -398,7 +340,7 @@ class SocialNetwork {
             return false;
         }
 
-        int postId = nextPostId++; // Assign and increment the next available ID
+        int postId = nextPostId++;
         Post newPost = new Post(postId, creatorId, content, creationDate);
         creator.addCreatedPost(newPost);
 
@@ -409,7 +351,7 @@ class SocialNetwork {
             for (int sharedId : sharedWithIds) {
                 User sharedUser = findUserById(sharedId);
                 if (sharedUser != null) {
-                    if (sharedUser.getUserId() != creatorId) { // Don't share with self explicitly here
+                    if (sharedUser.getUserId() != creatorId) {
                         newPost.addSharedUser(sharedUser);
                         sharedUser.addSharedPost(newPost);
                         System.out.print(sharedId + " ");
@@ -421,14 +363,6 @@ class SocialNetwork {
             System.out.println();
         } else {
             System.out.println(" (Not shared with specific users).");
-            // Handle sharing with "all friends" if needed - iterate creator's friend list
-            // FriendNode currentFriend = creator.getFriendsListHead();
-            // while (currentFriend != null) {
-            //     newPost.addSharedUser(currentFriend.friend);
-            //     currentFriend.friend.addSharedPost(newPost);
-            //     currentFriend = currentFriend.next;
-            // }
-            // System.out.println(" (Shared with all friends).");
         }
 
 
@@ -436,19 +370,13 @@ class SocialNetwork {
     }
 
 
-    /**
-     * Deletes a post. Only the creator can delete their own post entirely.
-     * If cascade is true, removes the post from all users' shared lists as well.
-     * Internal helper to distinguish between user action and cascade delete.
-     */
     private boolean deletePostInternal(int postId, int requestingUserId, boolean cascade) {
         User requester = findUserById(requestingUserId);
         if (requester == null) {
             System.err.println("Error: Requesting user ID " + requestingUserId + " not found.");
-            return false; // Should not happen if called correctly
+            return false;
         }
 
-        // Find the post in the creator's list first to get the Post object
         Post postToDelete = null;
         User creator = null;
 
@@ -459,30 +387,26 @@ class SocialNetwork {
                 if (currentPostNode.post.getPostId() == postId) {
                     postToDelete = currentPostNode.post;
                     creator = currentUserNode.user;
-                    break; // Found the post and its creator
+                    break;
                 }
                 currentPostNode = currentPostNode.next;
             }
-            if (postToDelete != null) break; // Exit outer loop once found
+            if (postToDelete != null) break;
             currentUserNode = currentUserNode.next;
         }
 
 
         if (postToDelete == null) {
-            // Post might only exist in someone's 'sharedWithMe' list if creator was deleted improperly?
-            // Or simply doesn't exist.
             if (!cascade) System.err.println("Error: Post ID " + postId + " not found.");
             return false;
         }
 
-        // Check if the requester is the creator
+
         if (postToDelete.getCreatorId() != requestingUserId) {
-            // User is trying to delete a post they didn't create.
-            // Allow them to remove it from *their* shared view only.
             boolean removedFromView = requester.removeSharedPost(postId);
             if (removedFromView) {
                 System.out.println("Post ID " + postId + " removed from " + requester.getName() + "'s view.");
-                return true; // Indicate success in removing from view
+                return true;
             } else {
                 System.err.println("Error: Post ID " + postId + " not created by user " + requestingUserId + " and not found in their shared posts.");
                 return false;
@@ -490,25 +414,22 @@ class SocialNetwork {
 
         }
 
-        // --- If we reach here, the requester IS the creator ---
-        // Proceed with full deletion
 
-        // 1. Remove the post from the 'sharedWithMe' list of all users it was shared with
         SharedUserNode sharedNode = postToDelete.getSharedWithListHead();
         while (sharedNode != null) {
             sharedNode.sharedUser.removeSharedPost(postId);
             sharedNode = sharedNode.next;
         }
 
-        // 2. Remove the post from the creator's 'postsCreated' list
+
         boolean removedFromCreator = creator.removeCreatedPost(postId);
 
         if (removedFromCreator) {
             System.out.println("Post ID " + postId + " deleted successfully by creator " + creator.getName() + ".");
-            // The Post object should now be eligible for garbage collection if no other refs exist
+
             return true;
         } else {
-            // This case should ideally not happen if we found the post earlier
+
             System.err.println("Internal Error: Failed to remove post " + postId + " from creator's list after finding it.");
             return false;
         }

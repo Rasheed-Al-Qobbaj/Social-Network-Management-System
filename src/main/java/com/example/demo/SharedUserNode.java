@@ -1,7 +1,7 @@
 package com.example.demo;
 
 class SharedUserNode {
-    User sharedUser; // Reference to the User this post is shared with
+    User sharedUser;
     SharedUserNode next;
 
     SharedUserNode(User sharedUser) {

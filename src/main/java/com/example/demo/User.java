@@ -4,9 +4,9 @@ class User {
     int userId;
     String name;
     int age;
-    FriendNode friendsListHead;       // Head of list of friends (User objects)
-    PostNode postsCreatedHead;      // Head of list of posts created by this user (Post objects)
-    PostNode postsSharedWithMeHead; // Head of list of posts shared with this user (Post objects)
+    FriendNode friendsListHead;
+    PostNode postsCreatedHead;
+    PostNode postsSharedWithMeHead;
 
     public User(int userId, String name, int age) {
         this.userId = userId;
@@ -25,19 +25,13 @@ class User {
     public PostNode getPostsCreatedHead() { return postsCreatedHead; }
     public PostNode getPostsSharedWithMeHead() { return postsSharedWithMeHead; }
 
-    // --- Setters (Example for age) ---
+    // --- Setters ---
     public void setAge(int age) { this.age = age; }
     public void setName(String name) { this.name = name;} // Added setter for name update
 
 
     // --- Methods for managing friends ---
 
-    /**
-     * Adds a friend to this user's friend list. Avoids duplicates.
-     * Note: This adds the friend to *this* user's list. Call it again on the
-     * other user object to make the friendship reciprocal if needed.
-     * @param friendUser The User object representing the friend to add.
-     */
     public void addFriend(User friendUser) {
         if (friendUser == null || friendUser.getUserId() == this.userId) return; // Cannot friend self
 
@@ -56,13 +50,6 @@ class User {
         friendsListHead = newFriendNode;
     }
 
-    /**
-     * Removes a friend from this user's friend list by ID.
-     * Note: This removes the friend from *this* user's list. Call it again on the
-     * other user object to make the removal reciprocal if needed.
-     * @param friendId The ID of the friend to remove.
-     * @return true if the friend was found and removed, false otherwise.
-     */
     public boolean removeFriend(int friendId) {
         if (friendsListHead == null) {
             return false;
@@ -88,7 +75,6 @@ class User {
 
     // --- Methods for managing posts ---
 
-    /** Adds a post created by this user to their 'postsCreated' list. */
     public void addCreatedPost(Post post) {
         if (post == null) return;
         PostNode newNode = new PostNode(post);
@@ -96,7 +82,6 @@ class User {
         postsCreatedHead = newNode;
     }
 
-    /** Removes a post from the 'postsCreated' list by Post ID. */
     public boolean removeCreatedPost(int postId) {
         if (postsCreatedHead == null) return false;
 
@@ -116,8 +101,6 @@ class User {
         return false;
     }
 
-
-    /** Adds a post shared with this user to their 'postsSharedWithMe' list. Avoids duplicates. */
     public void addSharedPost(Post post) {
         if (post == null) return;
 
@@ -135,7 +118,6 @@ class User {
         postsSharedWithMeHead = newNode;
     }
 
-    /** Removes a post from the 'postsSharedWithMe' list by Post ID. */
     public boolean removeSharedPost(int postId) {
         if (postsSharedWithMeHead == null) return false;
 
@@ -161,7 +143,7 @@ class User {
         return "User ID: " + userId + ", Name: " + name + ", Age: " + age;
     }
 
-    // --- Helper method for counting posts ---
+
     public int countCreatedPosts() {
         int count = 0;
         PostNode current = postsCreatedHead;
