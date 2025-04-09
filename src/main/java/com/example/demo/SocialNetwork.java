@@ -704,4 +704,125 @@ class SocialNetwork {
             System.err.println("Error saving posts shared with report: " + e.getMessage());
         }
     }
+
+    public UserNode getUserListHead() {
+        return userListHead;
+    }
+    // --- Add these NEW methods inside your SocialNetwork class ---
+
+    /** Builds and returns the Posts Created report as a String. */
+    public String getPostsCreatedByUserReport(int userId) {
+        User user = findUserById(userId);
+        if (user == null) {
+            return "User ID " + userId + " not found.";
+        }
+
+        StringBuilder report = new StringBuilder();
+        report.append("--- Posts Created by ").append(user.getName())
+                .append(" (ID: ").append(userId).append(") ---\n");
+
+        PostNode current = user.getPostsCreatedHead();
+        if (current == null) {
+            report.append("No posts created by this user.\n");
+        } else {
+            while (current != null) {
+                Post post = current.post;
+                report.append("Post ID: ").append(post.getPostId())
+                        .append(", Content: \"").append(post.getContent()).append("\"")
+                        .append(", Date: ").append(post.getCreationDate());
+
+                // Append shared with list
+                report.append(", Shared With: ");
+                SharedUserNode shared = post.getSharedWithListHead();
+                if (shared == null) {
+                    report.append("None");
+                } else {
+                    boolean first = true;
+                    while (shared != null) {
+                        if (!first) report.append(", ");
+                        report.append(shared.sharedUser.getName())
+                                .append(" (ID:").append(shared.sharedUser.getUserId()).append(")");
+                        shared = shared.next;
+                        first = false;
+                    }
+                }
+                report.append("\n"); // New line for next post
+                current = current.next;
+            }
+        }
+        report.append("------------------------------------------\n");
+        return report.toString();
+    }
+
+    /** Builds and returns the Posts Shared With report as a String. */
+    public String getPostsSharedWithUserReport(int userId) {
+        User user = findUserById(userId);
+        if (user == null) {
+            return "User ID " + userId + " not found.";
+        }
+        StringBuilder report = new StringBuilder();
+        report.append("--- Posts Shared with ").append(user.getName())
+                .append(" (ID: ").append(userId).append(") ---\n");
+
+        PostNode current = user.getPostsSharedWithMeHead();
+        if (current == null) {
+            report.append("No posts shared with this user.\n");
+        } else {
+            while (current != null) {
+                Post post = current.post;
+                User creator = findUserById(post.getCreatorId());
+                String creatorName = (creator != null) ? creator.getName() : "Unknown";
+                report.append("Post ID: ").append(post.getPostId())
+                        .append(", Content: \"").append(post.getContent()).append("\"")
+                        .append(", Date: ").append(post.getCreationDate())
+                        .append(" (Creator: ").append(creatorName)
+                        .append(" ID:").append(post.getCreatorId()).append(")\n");
+                current = current.next;
+            }
+        }
+        report.append("------------------------------------------\n");
+        return report.toString();
+    }
+
+    /** Builds and returns the Engagement Metrics report as a String. */
+    public String getEngagementMetricsReport(int userId) {
+        User user = findUserById(userId);
+        if (user == null) {
+            return "User ID " + userId + " not found.";
+        }
+        StringBuilder report = new StringBuilder();
+        report.append("--- Engagement Metrics for ").append(user.getName()).append(" ---\n");
+        report.append("Posts Created: ").append(user.countCreatedPosts()).append("\n");
+        report.append("Posts Shared With User: ").append(user.countSharedPosts()).append("\n");
+        // Could add more metrics like number of friends, etc.
+        report.append("------------------------------------------\n");
+        return report.toString();
+    }
+
+    /** Builds and returns the Most Active Users report as a String (simplified version). */
+    public String getMostActiveUsersReport(int n) {
+        StringBuilder report = new StringBuilder();
+        report.append("--- Top ").append(n).append(" Most Active Users Report ---\n");
+        report.append("(Simplified: Showing total created posts per user)\n");
+        // --- Implement the full sorting/filtering logic here eventually ---
+        // Placeholder logic:
+        UserNode current = userListHead;
+        if (current == null) {
+            report.append("No users in the network.\n");
+        } else {
+            // In a real scenario, you'd collect users and counts, sort, then print top N
+            int count = 0;
+            while(current != null && count < n) { // Limit to N for this example
+                report.append(" - ").append(current.user.getName())
+                        .append(": ").append(current.user.countCreatedPosts()).append(" posts created\n");
+                current = current.next;
+                count++;
+            }
+            if (count == 0) {
+                report.append("No users found to report on.\n");
+            }
+        }
+        report.append("------------------------------------------\n");
+        return report.toString();
+    }
 }
