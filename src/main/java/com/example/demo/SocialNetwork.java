@@ -429,21 +429,16 @@ class SocialNetwork {
 
             return true;
         } else {
-
             System.err.println("Internal Error: Failed to remove post " + postId + " from creator's list after finding it.");
             return false;
         }
     }
 
-    /**
-     * Public facing method for post deletion
-     */
     public boolean deletePost(int postId, int requestingUserId) {
-        return deletePostInternal(postId, requestingUserId, true); // User initiated delete is always cascade
+        return deletePostInternal(postId, requestingUserId, true);
     }
 
 
-    // --- Reporting Methods (Stubs - Implement Logic) ---
 
     public void displayPostsCreatedByUser(int userId) {
         User user = findUserById(userId);
@@ -457,8 +452,7 @@ class SocialNetwork {
             System.out.println("No posts created by this user.");
         }
         while (current != null) {
-            System.out.println(current.post); // Uses Post's toString()
-            // Optionally print who it was shared with
+            System.out.println(current.post);
             System.out.print("   Shared With: ");
             SharedUserNode shared = current.post.getSharedWithListHead();
             if (shared == null) System.out.print("None");
@@ -487,7 +481,7 @@ class SocialNetwork {
         while (current != null) {
             User creator = findUserById(current.post.getCreatorId());
             String creatorName = (creator != null) ? creator.getName() : "Unknown";
-            System.out.println(current.post + " (Creator: " + creatorName + ")"); // Uses Post's toString()
+            System.out.println(current.post + " (Creator: " + creatorName + ")");
             current = current.next;
         }
         System.out.println("------------------------------------------");
@@ -495,20 +489,8 @@ class SocialNetwork {
 
     public void displayMostActiveUsers(int n) {
         System.out.println("\n--- Top " + n + " Most Active Users ---");
-        // --- Complex Logic Required ---
-        // 1. Iterate through all users.
-        // 2. For each user, count posts created (potentially within the last 3 weeks).
-        //    - Need java.time.LocalDate, ChronoUnit.WEEKS.between(postDate, now) <= 3
-        //    - Need to handle null post dates.
-        // 3. Store user references/IDs and their counts (e.g., in a temporary array or list).
-        // 4. Sort this temporary structure by count (descending).
-        // 5. Print the top N users from the sorted structure.
-        // Note: Since we cannot use library collections like ArrayList/HashMap for the core logic,
-        // implementing the sorting efficiently without them (e.g., using a temporary array and
-        // a simple sort like bubble sort or insertion sort) is necessary.
 
         System.out.println("Most Active Users report not fully implemented yet.");
-        // Placeholder: Print total posts per user for now
         UserNode current = userListHead;
         if (current == null) {
             System.out.println("No users in the network.");
@@ -533,23 +515,16 @@ class SocialNetwork {
         System.out.println("\n--- Engagement Metrics for " + user.getName() + " ---");
         System.out.println("Posts Created: " + user.countCreatedPosts());
         System.out.println("Posts Shared With User: " + user.countSharedPosts());
-        // Could add more metrics like number of friends, etc.
         System.out.println("------------------------------------------");
     }
 
 
-    // --- Data Saving Methods (Stubs - Implement Logic) ---
-
-    /**
-     * Saves a report of posts created by each user to a file.
-     */
     public void savePostsCreatedReport(String filename /*, boolean sortedByName */) {
         System.out.println("Saving Posts Created Report to " + filename + "...");
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
             writer.println("Posts Created Report");
             writer.println("====================");
 
-            // TODO: Add sorting logic if required (e.g., collect users, sort, then iterate)
 
             UserNode current = userListHead;
             while (current != null) {
@@ -563,7 +538,6 @@ class SocialNetwork {
                     writer.print("  - Post ID: " + post.getPostId());
                     writer.print(", Content: " + post.getContent());
                     writer.print(", " + post.getCreationDate());
-                    // Print shared with list
                     writer.print(", Shared With: ");
                     SharedUserNode shared = post.getSharedWithListHead();
                     if (shared == null) {
@@ -572,7 +546,7 @@ class SocialNetwork {
                         boolean first = true;
                         while (shared != null) {
                             if (!first) writer.print(", ");
-                            writer.print(shared.sharedUser.getName()); // Example: Just name
+                            writer.print(shared.sharedUser.getName());
                             shared = shared.next;
                             first = false;
                         }
@@ -588,16 +562,11 @@ class SocialNetwork {
         }
     }
 
-    /**
-     * Saves a report of posts shared with each user to a file.
-     */
     public void savePostsSharedWithReport(String filename /*, boolean sortedByName */) {
         System.out.println("Saving Posts Shared With Report to " + filename + "...");
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
             writer.println("Posts Shared With User Report");
             writer.println("=============================");
-
-            // TODO: Add sorting logic if required
 
             UserNode current = userListHead;
             while (current != null) {
@@ -629,9 +598,7 @@ class SocialNetwork {
     public UserNode getUserListHead() {
         return userListHead;
     }
-    // --- Add these NEW methods inside your SocialNetwork class ---
 
-    /** Builds and returns the Posts Created report as a String. */
     public String getPostsCreatedByUserReport(int userId) {
         User user = findUserById(userId);
         if (user == null) {
@@ -667,7 +634,7 @@ class SocialNetwork {
                         first = false;
                     }
                 }
-                report.append("\n"); // New line for next post
+                report.append("\n");
                 current = current.next;
             }
         }
@@ -675,7 +642,6 @@ class SocialNetwork {
         return report.toString();
     }
 
-    /** Builds and returns the Posts Shared With report as a String. */
     public String getPostsSharedWithUserReport(int userId) {
         User user = findUserById(userId);
         if (user == null) {
@@ -705,7 +671,6 @@ class SocialNetwork {
         return report.toString();
     }
 
-    /** Builds and returns the Engagement Metrics report as a String. */
     public String getEngagementMetricsReport(int userId) {
         User user = findUserById(userId);
         if (user == null) {
@@ -715,25 +680,20 @@ class SocialNetwork {
         report.append("--- Engagement Metrics for ").append(user.getName()).append(" ---\n");
         report.append("Posts Created: ").append(user.countCreatedPosts()).append("\n");
         report.append("Posts Shared With User: ").append(user.countSharedPosts()).append("\n");
-        // Could add more metrics like number of friends, etc.
         report.append("------------------------------------------\n");
         return report.toString();
     }
 
-    /** Builds and returns the Most Active Users report as a String (simplified version). */
     public String getMostActiveUsersReport(int n) {
         StringBuilder report = new StringBuilder();
         report.append("--- Top ").append(n).append(" Most Active Users Report ---\n");
         report.append("(Simplified: Showing total created posts per user)\n");
-        // --- Implement the full sorting/filtering logic here eventually ---
-        // Placeholder logic:
         UserNode current = userListHead;
         if (current == null) {
             report.append("No users in the network.\n");
         } else {
-            // In a real scenario, you'd collect users and counts, sort, then print top N
             int count = 0;
-            while(current != null && count < n) { // Limit to N for this example
+            while(current != null && count < n) {
                 report.append(" - ").append(current.user.getName())
                         .append(": ").append(current.user.countCreatedPosts()).append(" posts created\n");
                 current = current.next;
